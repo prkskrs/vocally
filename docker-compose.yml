@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  api-server:
+    build: .
+    environment:
+      - PORT=8080
+      - MONGODB_CONNECTION_STRING=mongodb+srv://prkskrs:1JRRLP0TScJtklaB@cluster0.fncdhdb.mongodb.net/libraryDB?retryWrites=true&w=majority
+    ports:
+      - "8080:8080"
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
