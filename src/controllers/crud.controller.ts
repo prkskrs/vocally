@@ -11,6 +11,9 @@ interface createObject {
   publication_date: String;
   description: String;
   isAvailable: Boolean;
+  quantity: Number;
+  isbn: String;
+  publisher: String;
 }
 
 export const addBook: RequestHandler = bigPromise(
@@ -22,13 +25,20 @@ export const addBook: RequestHandler = bigPromise(
         publication_date,
         description,
         isAvailable,
+        quantity,
+        isbn,
+        publisher,
       }: {
         title: String;
         author: String;
         publication_date: String;
         description: String;
         isAvailable: Boolean;
+        quantity: Number;
+        isbn: String;
+        publisher: String;
       } = req.body;
+      
 
       const toStore: createObject = {
         title,
@@ -36,6 +46,9 @@ export const addBook: RequestHandler = bigPromise(
         publication_date,
         description,
         isAvailable: true,
+        quantity,
+        isbn,
+        publisher,
       };
 
       if (!title || !author || !publication_date || !description) {
@@ -131,6 +144,9 @@ export const updateBook: RequestHandler = bigPromise(
         publication_date: req.body.publication_date,
         description: req.body.description,
         isAvailable: req.body.isAvailable,
+        quantity: req.body.quantity,
+        isbn: req.body.isbn,
+        publisher: req.body.publisher,
       };
 
       const updatedBook = await Book.findByIdAndUpdate(bookId, newData, {
@@ -179,7 +195,7 @@ export const deleteBook: RequestHandler = bigPromise(
           createCustomError("Failed to find book with this bookId", 400)
         );
       }
-      console.log(book)
+      console.log(book);
       const data: any = { book };
       const response = sendSuccessApiResponse(
         "Book Deleted Successfully!",
@@ -191,5 +207,3 @@ export const deleteBook: RequestHandler = bigPromise(
     }
   }
 );
-
-
